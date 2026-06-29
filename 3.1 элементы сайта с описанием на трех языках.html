@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Neon UI Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* базовые переменные и сброс стилей */
+    :root {
+      --neon-green: #39ff14;
+      --neon-green-dim: rgba(57, 255, 20, 0.2);
+      --bg-dark: #0a0a0a;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-main: #e0e0e0;
+      --text-muted: #888888;
+      --error-red: #ff003c;
+      --warning-yellow: #ffea00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+      /* фоновый узор для усиления кибер-стиля */
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(57, 255, 20, 0.05), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(57, 255, 20, 0.05), transparent 25%);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* утилиты */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--neon-green-dim);
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 10px;
+      color: var(--neon-green);
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    /* стили для мультиязычных описаний */
+    .lang-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: normal;
+      margin-left: 8px;
+    }
+    
+    .element-desc {
+      font-size: 0.8rem;
+      color: #a0a0a0;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      border-left: 2px solid var(--neon-green-dim);
+      padding-left: 10px;
+    }
+    
+    .element-desc span {
+      display: block;
+    }
+
+    /* 1. навигация (header & menu) */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--neon-green);
+      text-shadow: 0 0 5px var(--neon-green);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--neon-green);
+      text-shadow: 0 0 8px var(--neon-green);
+    }
+
+    .burger-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--neon-green);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* 2. hero секция */
+    .hero {
+      margin-top: 70px;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 0 15px var(--neon-green), 0 0 30px var(--neon-green-dim);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* 3. кнопки */
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: var(--neon-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      padding: 12px 24px;
+      border: 1px solid var(--neon-green);
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 5px var(--neon-green-dim), 0 0 5px var(--neon-green-dim);
+    }
+
+    .btn:hover {
+      background: var(--neon-green-dim);
+      box-shadow: inset 0 0 10px var(--neon-green), 0 0 15px var(--neon-green);
+      text-shadow: 0 0 5px var(--neon-green);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn:disabled, .btn.disabled {
+      border-color: #555;
+      color: #555;
+      box-shadow: none;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .btn.loading {
+      pointer-events: none;
+      color: transparent;
+    }
+
+    .btn.loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top-color: var(--neon-green);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 4. поля ввода */
+    .input-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .input-control {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      padding: 12px 15px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .input-control:focus {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green-dim);
+    }
+
+    .input-control:focus + label,
+    .input-control:not(:placeholder-shown) + label {
+      color: var(--neon-green);
+    }
+
+    .error-text {
+      color: var(--error-red);
+      font-size: 0.8rem;
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .input-group.error .input-control {
+      border-color: var(--error-red);
+      box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+    }
+
+    .input-group.error .error-text {
+      opacity: 1;
+    }
+
+    textarea.input-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* 5. чекбоксы и радиокнопки */
+    .checkbox-group, .radio-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input, .radio-group input {
+      display: none;
+    }
+
+    .custom-checkbox, .custom-radio {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--text-muted);
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .custom-radio {
+      border-radius: 50%;
+    }
+
+    .checkbox-group input:checked + .custom-checkbox,
+    .radio-group input:checked + .custom-radio {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 8px var(--neon-green-dim);
+    }
+
+    .custom-checkbox::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 6px;
+      width: 5px;
+      height: 10px;
+      border: solid var(--neon-green);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .custom-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 10px;
+      height: 10px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .checkbox-group input:checked + .custom-checkbox::after {
+      opacity: 1;
+    }
+
+    .radio-group input:checked + .custom-radio::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* 6. карточки */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px var(--neon-green-dim);
+      border-color: rgba(57, 255, 20, 0.3);
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* 7. галерея */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      border: 1px solid var(--glass-border);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      filter: grayscale(80%) brightness(0.8);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+      filter: grayscale(0%) brightness(1.1);
+    }
+
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 0 transparent;
+      transition: box-shadow 0.5s ease;
+      pointer-events: none;
+    }
+
+    .gallery-item:hover::after {
+      box-shadow: inset 0 0 20px var(--neon-green);
+    }
+
+    /* 8. слайдер и прогресс-бар */
+    .interactive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .slider-container {
+      margin-bottom: 30px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .slider-value {
+      color: var(--neon-green);
+      font-weight: bold;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: var(--neon-green);
+      cursor: pointer;
+      margin-top: -8px;
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: var(--glass-border);
+      border-radius: 2px;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background: var(--glass-border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green);
+      transition: width 0.1s linear;
+    }
+
+    /* 9. модальное окно */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--bg-dark);
+      border: 1px solid var(--neon-green);
+      box-shadow: 0 0 30px rgba(57, 255, 20, 0.1);
+      width: 90%;
+      max-width: 500px;
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid var(--glass-border);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-modal:hover {
+      color: var(--error-red);
+    }
+
+    /* 10. форма обратной связи */
+    .form-message {
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .form-message.success {
+      display: block;
+      background: rgba(57, 255, 20, 0.1);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+    }
+
+    /* --- НОВЫЕ ЭЛЕМЕНТЫ (EXTRA) --- */
+
+    /* 1. бейджи / теги */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    .badge.neon {
+      background: var(--neon-green-dim);
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      box-shadow: 0 0 5px var(--neon-green-dim);
+    }
+    .badge.error {
+      background: rgba(255, 0, 60, 0.1);
+      border-color: var(--error-red);
+      color: var(--error-red);
+    }
+
+    /* 2. тултип */
+    [data-tooltip] {
+      position: relative;
+      cursor: help;
+      border-bottom: 1px dashed var(--text-muted);
+    }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-dark);
+      border: 1px solid var(--neon-green);
+      color: var(--text-main);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 10;
+    }
+    [data-tooltip]:hover::after {
+      opacity: 1;
+      bottom: 150%;
+    }
+
+    /* 3. переключатель (toggle) */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255,255,255,0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      transition: .4s;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-muted);
+      border-radius: 50%;
+      transition: .4s;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--neon-green-dim);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green-dim);
+    }
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+      background-color: var(--neon-green);
+      box-shadow: 0 0 5px var(--neon-green);
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    /* 4. спиннер */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--glass-border);
+      border-top-color: var(--neon-green);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 15px var(--neon-green-dim);
+    }
+
+    /* 5. хлебные крошки */
+    .breadcrumbs {
+      display: flex;
+      list-style: none;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .breadcrumbs li {
+      display: flex;
+      align-items: center;
+    }
+    .breadcrumbs li a {
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+    .breadcrumbs li a:hover {
+      color: var(--neon-green);
+      text-shadow: 0 0 5px var(--neon-green);
+    }
+    .breadcrumbs li::after {
+      content: '/';
+      margin: 0 10px;
+      color: var(--glass-border);
+    }
+    .breadcrumbs li:last-child::after {
+      display: none;
+    }
+    .breadcrumbs li:last-child {
+      color: var(--neon-green);
+    }
+
+    /* 6. пагинация */
+    .pagination {
+      display: flex;
+      list-style: none;
+      gap: 10px;
+    }
+    .pagination li a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      height: 35px;
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+    .pagination li a:hover, .pagination li a.active {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      background: var(--neon-green-dim);
+      box-shadow: 0 0 10px var(--neon-green-dim);
+    }
+
+    /* 7. уведомления (alerts) */
+    .alert {
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      border-left: 4px solid;
+      background: var(--glass-bg);
+    }
+    .alert.info {
+      border-left-color: var(--neon-green);
+      color: var(--neon-green);
+    }
+    .alert.warning {
+      border-left-color: var(--warning-yellow);
+      color: var(--warning-yellow);
+    }
+    .alert.error {
+      border-left-color: var(--error-red);
+      color: var(--error-red);
+    }
+
+    /* 8. вкладки (tabs) */
+    .tabs-nav {
+      display: flex;
+      border-bottom: 1px solid var(--glass-border);
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+    .tab-btn.active {
+      color: var(--neon-green);
+      border-bottom-color: var(--neon-green);
+      text-shadow: 0 0 5px var(--neon-green-dim);
+    }
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.4s;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 9. аккордеон */
+    .accordion-item {
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .accordion-header {
+      width: 100%;
+      text-align: left;
+      background: rgba(255,255,255,0.02);
+      border: none;
+      padding: 15px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .accordion-header:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    .accordion-header.active {
+      color: var(--neon-green);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .accordion-header::after {
+      content: '+';
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+    .accordion-header.active::after {
+      transform: rotate(45deg);
+      color: var(--neon-green);
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: var(--bg-dark);
+    }
+    .accordion-content-inner {
+      padding: 15px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* 10. таблица */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .data-table th, .data-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .data-table th {
+      color: var(--neon-green);
+      font-weight: normal;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      background: rgba(57, 255, 20, 0.05);
+    }
+    .data-table tr {
+      transition: background 0.3s;
+    }
+    .data-table tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* 11. Продвинутые элементы (Dropdown, Toast, Avatar, Skeleton) */
+    
+    /* Avatar */
+    .avatar-wrapper { position: relative; display: inline-block; }
+    .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--neon-green); object-fit: cover; }
+    .avatar-status { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: var(--neon-green); border-radius: 50%; border: 2px solid var(--bg-dark); box-shadow: 0 0 5px var(--neon-green); }
+
+    /* Skeleton */
+    .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: skeletonLoading 1.5s infinite; border-radius: 4px; }
+    @keyframes skeletonLoading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* Custom Select */
+    .custom-select-wrapper { position: relative; width: 100%; max-width: 300px; user-select: none; }
+    .custom-select-trigger { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); padding: 12px 15px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text-main); transition: border-color 0.3s, box-shadow 0.3s; }
+    .custom-select-trigger:hover { border-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green-dim); }
+    .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-dark); border: 1px solid var(--neon-green); border-radius: 4px; margin-top: 5px; z-index: 10; display: none; max-height: 150px; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+    .custom-options.open { display: block; }
+    .custom-option { padding: 10px 15px; cursor: pointer; transition: background 0.2s; color: var(--text-muted); }
+    .custom-option:hover, .custom-option.selected { background: var(--neon-green-dim); color: var(--neon-green); }
+
+    /* Toast */
+    .toast-container { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999; pointer-events: none; }
+    .toast { background: rgba(10,10,10,0.9); backdrop-filter: blur(5px); border-left: 4px solid var(--neon-green); border-radius: 4px; padding: 15px 20px; color: var(--text-main); min-width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transform: translateX(120%); transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: auto; }
+    .toast.show { transform: translateX(0); }
+
+    /* адаптивность */
+    @media (max-width: 768px) {
+      .burger-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 250px;
+        height: calc(100vh - 70px);
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(15px);
+        border-left: 1px solid var(--glass-border);
+        flex-direction: column;
+        padding: 40px 20px;
+        transition: right 0.3s ease;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- шапка и навигация -->
+  <header>
+    <div class="container navbar">
+      <div class="logo">CYBER_KIT</div>
+      <button class="burger-btn" id="burgerBtn">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#components">Компоненты</a>
+        <a href="#cards">Карточки</a>
+        <a href="#interactive">Интерактив</a>
+        <a href="#extra-components">Дополнительно</a>
+        <a href="#advanced-components">Продвинутые</a>
+        <a href="#form-section">Форма</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- главный экран -->
+  <section class="hero">
+    <div class="container">
+      <h1>Neon Green <br>UI Kit</h1>
+      <p>Базовые элементы интерфейса для кибер-проектов. Glassmorphism, чистый код, полная адаптивность.</p>
+    </div>
+  </section>
+
+  <!-- кнопки и инпуты -->
+  <section id="components" class="container">
+    <h2 class="section-title">01. Элементы управления</h2>
+    <div class="components-grid">
+      <!-- колонка кнопок -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Кнопки <span class="lang-subtitle">/ Buttons / Pulsanti</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Базовый интерактивный элемент для действий.</span>
+          <span>🇬🇧 Basic interactive element for actions.</span>
+          <span>🇮🇹 Elemento interattivo di base per le azioni.</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <button class="btn">Default State</button>
+          <button class="btn" style="background: var(--neon-green-dim); box-shadow: inset 0 0 10px var(--neon-green), 0 0 15px var(--neon-green); text-shadow: 0 0 5px var(--neon-green);">Hover State</button>
+          <button class="btn" style="transform: scale(0.95);">Active State</button>
+          <button class="btn disabled" disabled>Disabled State</button>
+        </div>
+      </div>
+
+      <!-- колонка инпутов -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Поля ввода <span class="lang-subtitle">/ Inputs / Campi di Input</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Текстовые поля для сбора данных от пользователя.</span>
+          <span>🇬🇧 Text fields for collecting user data.</span>
+          <span>🇮🇹 Campi di testo per la raccolta dei dati dell'utente.</span>
+        </div>
+        <div class="input-group">
+          <label>Стандартный Input</label>
+          <input type="text" class="input-control" placeholder="Введите текст...">
+        </div>
+        <div class="input-group error">
+          <label>Input с ошибкой</label>
+          <input type="text" class="input-control" value="Неверные данные">
+          <span class="error-text">Пожалуйста, исправьте ошибку</span>
+        </div>
+      </div>
+
+      <!-- колонка чекбоксов/радио -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Переключатели <span class="lang-subtitle">/ Options / Opzioni</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Элементы для выбора одного или нескольких вариантов.</span>
+          <span>🇬🇧 Elements for selecting one or multiple options.</span>
+          <span>🇮🇹 Elementi per la selezione di una o più opzioni.</span>
+        </div>
+        <label class="checkbox-group">
+          <input type="checkbox" checked>
+          <span class="custom-checkbox"></span>
+          Системный доступ
+        </label>
+        <label class="checkbox-group">
+          <input type="checkbox">
+          <span class="custom-checkbox"></span>
+          Шифрование данных
+        </label>
+        
+        <div style="margin-top: 30px;">
+          <label class="radio-group">
+            <input type="radio" name="cyber_radio" checked>
+            <span class="custom-radio"></span>
+            Протокол Alpha
+          </label>
+          <label class="radio-group">
+            <input type="radio" name="cyber_radio">
+            <span class="custom-radio"></span>
+            Протокол Beta
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- карточки -->
+  <section id="cards" class="container">
+    <h2 class="section-title">02. Glassmorphism Карточки</h2>
+    <div style="margin-bottom: 30px;">
+      <h3 style="margin: 0 0 5px 0;">Карточки <span class="lang-subtitle">/ Cards / Schede</span></h3>
+      <div class="element-desc">
+        <span>🇷🇺 Контейнеры для группировки связанной информации.</span>
+        <span>🇬🇧 Containers for grouping related information.</span>
+        <span>🇮🇹 Contenitori per raggruppare informazioni correlate.</span>
+      </div>
+    </div>
+    <div class="cards-grid">
+      <div class="card glass-panel">
+        <h3>Модуль Аналитики</h3>
+        <p>Система отслеживания пользовательской активности в реальном времени. Включает графики и тепловые карты.</p>
+        <button class="btn">Подробнее</button>
+      </div>
+      <div class="card glass-panel">
+        <h3>Ядро Безопасности</h3>
+        <p>Защита от DDoS-атак и сканирование уязвимостей. Автоматическая блокировка подозрительного трафика.</p>
+        <button class="btn">Настроить</button>
+      </div>
+      <div class="card glass-panel">
+        <h3>Синхронизация</h3>
+        <p>Резервное копирование данных в облачные хранилища с использованием алгоритмов сквозного шифрования.</p>
+        <button class="btn">Запустить</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- медиа галерея -->
+  <section id="media" class="container">
+    <h2 class="section-title">03. Медиа Галерея</h2>
+    <div style="margin-bottom: 30px;">
+      <h3 style="margin: 0 0 5px 0;">Галерея <span class="lang-subtitle">/ Gallery / Galleria</span></h3>
+      <div class="element-desc">
+        <span>🇷🇺 Сетка для отображения изображений с эффектами наведения.</span>
+        <span>🇬🇧 Grid for displaying images with hover effects.</span>
+        <span>🇮🇹 Griglia per visualizzare immagini con effetti di passaggio del mouse.</span>
+      </div>
+    </div>
+    <div class="gallery-grid">
+      <!-- используем unsplash для случайных изображений подходящей тематики -->
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" alt="Cyber 1">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=400&q=80" alt="Cyber 2">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80" alt="Cyber 3">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&w=400&q=80" alt="Cyber 4">
+      </div>
+    </div>
+  </section>
+
+  <!-- интерактив (слайдер, прогресс, модалка) -->
+  <section id="interactive" class="container">
+    <h2 class="section-title">04. Интерактивные компоненты</h2>
+    <div class="interactive-grid">
+      
+      <!-- слайдер -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Слайдер <span class="lang-subtitle">/ Slider / Cursore</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Элемент для выбора числового значения из диапазона.</span>
+          <span>🇬🇧 Element for selecting a numeric value from a range.</span>
+          <span>🇮🇹 Elemento per selezionare un valore numerico da un intervallo.</span>
+        </div>
+        <div class="slider-container">
+          <div class="slider-header">
+            <span>Мощность сервера</span>
+            <span class="slider-value" id="sliderValue">50%</span>
+          </div>
+          <input type="range" id="powerSlider" min="0" max="100" value="50">
+        </div>
+      </div>
+
+      <!-- прогресс-бар -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Индикатор <span class="lang-subtitle">/ Progress Bar / Barra di Avanzamento</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Визуализация прогресса выполнения задачи.</span>
+          <span>🇬🇧 Visualization of task completion progress.</span>
+          <span>🇮🇹 Visualizzazione del progresso di completamento di un'attività.</span>
+        </div>
+        <div style="margin-bottom: 10px;">Загрузка модулей</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <button class="btn" id="startProgressBtn">Запустить загрузку</button>
+      </div>
+
+      <!-- модальное окно (триггер) -->
+      <div class="glass-panel" style="display: flex; flex-direction: column; justify-content: center;">
+        <h3 style="margin: 0 0 5px 0;">Модальное окно <span class="lang-subtitle">/ Modal / Finestra Modale</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Всплывающее окно поверх основного контента.</span>
+          <span>🇬🇧 Pop-up window over the main content.</span>
+          <span>🇮🇹 Finestra a comparsa sopra il contenuto principale.</span>
+        </div>
+        <button class="btn" id="openModalBtn" style="align-self: flex-start;">Открыть терминал</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- новые компоненты -->
+  <section id="extra-components" class="container">
+    <h2 class="section-title">06. Дополнительные элементы</h2>
+    <div class="components-grid">
+      
+      <!-- бейджи и тултипы -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Теги и Подсказки <span class="lang-subtitle">/ Badges & Tooltips / Badge e Tooltip</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Индикаторы статуса и всплывающие текстовые подсказки.</span>
+          <span>🇬🇧 Status indicators and hover text hints.</span>
+          <span>🇮🇹 Indicatori di stato e suggerimenti di testo al passaggio del mouse.</span>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <span class="badge">v1.0.4</span>
+          <span class="badge neon">Online</span>
+          <span class="badge error">Offline</span>
+        </div>
+        <div>
+          <p>Наведите на <span data-tooltip="Скрытая информация о протоколе" style="color: var(--neon-green);">этот текст</span>, чтобы увидеть подсказку.</p>
+        </div>
+      </div>
+
+      <!-- переключатель и спиннер -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Переключатель <span class="lang-subtitle">/ Toggle & Spinner / Interruttore e Spinner</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Альтернатива чекбоксу и круговой индикатор загрузки.</span>
+          <span>🇬🇧 Checkbox alternative and circular loading indicator.</span>
+          <span>🇮🇹 Alternativa alla casella di controllo e indicatore di caricamento.</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span>Авторизация по ключу</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px;">
+          <div class="spinner"></div>
+          <span style="color: var(--text-muted);">Идет соединение...</span>
+        </div>
+      </div>
+
+      <!-- навигация: крошки и пагинация -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Навигация <span class="lang-subtitle">/ Navigation / Navigazione</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Путь по сайту (хлебные крошки) и постраничный вывод.</span>
+          <span>🇬🇧 Site path (breadcrumbs) and paginated content.</span>
+          <span>🇮🇹 Percorso del sito (briciole di pane) e contenuto impaginato.</span>
+        </div>
+        <ul class="breadcrumbs">
+          <li><a href="#">Главная</a></li>
+          <li><a href="#">Система</a></li>
+          <li>Настройки</li>
+        </ul>
+        <ul class="pagination" style="margin-top: 20px;">
+          <li><a href="#">&laquo;</a></li>
+          <li><a href="#" class="active">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+      </div>
+
+      <!-- уведомления (alerts) -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Уведомления <span class="lang-subtitle">/ Alerts / Avvisi</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Системные сообщения о статусе различных операций.</span>
+          <span>🇬🇧 System messages about operation statuses.</span>
+          <span>🇮🇹 Messaggi di sistema sugli stati delle operazioni.</span>
+        </div>
+        <div class="alert info">Соединение с сервером установлено.</div>
+        <div class="alert warning">Обнаружена аномалия в пакете данных.</div>
+        <div class="alert error">Критический сбой. Доступ закрыт.</div>
+      </div>
+
+      <!-- вкладки (tabs) -->
+      <div class="glass-panel" style="grid-column: 1 / -1;">
+        <h3 style="margin: 0 0 5px 0;">Вкладки <span class="lang-subtitle">/ Tabs / Schede</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Переключение между блоками контента в одном окне без перезагрузки.</span>
+          <span>🇬🇧 Switching between content blocks in a single view without reloading.</span>
+          <span>🇮🇹 Passaggio tra blocchi di contenuto in un'unica visualizzazione senza ricaricare.</span>
+        </div>
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-target="tab1">Консоль</button>
+          <button class="tab-btn" data-target="tab2">Логи</button>
+          <button class="tab-btn" data-target="tab3">Сеть</button>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <p>Ожидание ввода команд. Пользователь root авторизован. Система готова к работе.</p>
+          </div>
+          <div class="tab-pane" id="tab2">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+              [12:04:01] инициализация модулей<br>
+              [12:04:05] загрузка ядра... ok<br>
+              [12:04:06] проверка прав доступа... ok
+            </p>
+          </div>
+          <div class="tab-pane" id="tab3">
+            <p>Пинг: 12ms. Потерь пакетов: 0%. Скорость соединения: 1 Gbit/s.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- аккордеон -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Аккордеон <span class="lang-subtitle">/ Accordion / Fisarmonica</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Сворачиваемые списки для скрытия или показа деталей контента.</span>
+          <span>🇬🇧 Collapsible lists to hide or show content details.</span>
+          <span>🇮🇹 Elenchi pieghevoli per nascondere o mostrare i dettagli del contenuto.</span>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">Как сбросить пароль?</button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Обратитесь к администратору сети или используйте аварийный протокол восстановления через email.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">Где хранятся ключи?</button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Ключи шифрования хранятся на изолированном сервере в зашифрованном виде. Доступ к ним строго ограничен.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- таблица -->
+      <div class="glass-panel" style="grid-column: 1 / -1;">
+        <h3 style="margin: 0 0 5px 0;">Таблица <span class="lang-subtitle">/ Data Table / Tabella Dati</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Структурированное представление данных по строкам и столбцам.</span>
+          <span>🇬🇧 Structured presentation of data in rows and columns.</span>
+          <span>🇮🇹 Presentazione strutturata dei dati in righe e colonne.</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID Узла</th>
+                <th>Статус</th>
+                <th>Нагрузка</th>
+                <th>Последний пинг</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ND-1042</td>
+                <td><span class="badge neon">Active</span></td>
+                <td>45%</td>
+                <td>12 мс назад</td>
+              </tr>
+              <tr>
+                <td>ND-1043</td>
+                <td><span class="badge error">Down</span></td>
+                <td>-</td>
+                <td>Timeout</td>
+              </tr>
+              <tr>
+                <td>ND-1044</td>
+                <td><span class="badge neon">Active</span></td>
+                <td>89%</td>
+                <td>2 мс назад</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Продвинутые компоненты -->
+  <section id="advanced-components" class="container">
+    <h2 class="section-title">07. Продвинутые элементы</h2>
+    <div class="components-grid">
+      
+      <!-- Аватар -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Аватары <span class="lang-subtitle">/ Avatars / Avatar</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Индикация профиля пользователя с онлайн статусом.</span>
+          <span>🇬🇧 User profile indication with online status.</span>
+          <span>🇮🇹 Indicazione del profilo utente con stato online.</span>
+        </div>
+        <div style="display: flex; gap: 20px;">
+          <div class="avatar-wrapper">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="avatar" alt="User 1">
+            <span class="avatar-status"></span>
+          </div>
+          <div class="avatar-wrapper">
+            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=100&q=80" class="avatar" style="border-color: var(--text-muted);" alt="User 2">
+            <span class="avatar-status" style="background: var(--text-muted); box-shadow: none;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skeleton -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Скелетон <span class="lang-subtitle">/ Skeleton / Skeleton Loader</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Плейсхолдер для контента, который находится в процессе загрузки.</span>
+          <span>🇬🇧 Placeholder for content that is currently loading.</span>
+          <span>🇮🇹 Segnaposto per il contenuto attualmente in caricamento.</span>
+        </div>
+        <div style="display: flex; gap: 15px; align-items: center; margin-top: 15px;">
+          <div class="skeleton" style="width: 50px; height: 50px; border-radius: 50%; flex-shrink: 0;"></div>
+          <div style="flex: 1;">
+            <div class="skeleton" style="height: 15px; width: 80%; margin-bottom: 8px;"></div>
+            <div class="skeleton" style="height: 10px; width: 60%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Select -->
+      <div class="glass-panel">
+        <h3 style="margin: 0 0 5px 0;">Кастомный список <span class="lang-subtitle">/ Dropdown / Menu a discesa</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Стилизованный селект с поддержкой выпадающего меню.</span>
+          <span>🇬🇧 Styled select dropdown with custom options.</span>
+          <span>🇮🇹 Selezione a discesa stilizzata con opzioni personalizzate.</span>
+        </div>
+        <div class="custom-select-wrapper" id="customSelect">
+          <div class="custom-select-trigger">
+            <span>Выберите протокол</span>
+            <span style="font-size: 0.8rem; color: var(--neon-green);">▼</span>
+          </div>
+          <div class="custom-options">
+            <div class="custom-option selected" data-value="ssh">SSH Протокол</div>
+            <div class="custom-option" data-value="ftp">FTP Передача</div>
+            <div class="custom-option" data-value="http">HTTP Соединение</div>
+            <div class="custom-option" data-value="tcp">TCP Сокет</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toasts -->
+      <div class="glass-panel" style="display: flex; flex-direction: column; justify-content: center;">
+        <h3 style="margin: 0 0 5px 0;">Уведомления (Toasts) <span class="lang-subtitle">/ Toasts / Notifiche</span></h3>
+        <div class="element-desc">
+          <span>🇷🇺 Динамические уведомления, исчезающие со временем.</span>
+          <span>🇬🇧 Dynamic notifications that fade over time.</span>
+          <span>🇮🇹 Notifiche dinamiche che scompaiono nel tempo.</span>
+        </div>
+        <button class="btn" id="triggerToastBtn" style="align-self: flex-start;">Вызвать событие</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- форма -->
+  <section id="form-section" class="container">
+    <h2 class="section-title">08. Форма связи (Валидация)</h2>
+    <div class="glass-panel" style="max-width: 600px; margin: 0 auto;">
+      <div id="formSuccessMessage" class="form-message success">
+        Данные успешно отправлены в систему!
+      </div>
+      
+      <form id="contactForm" novalidate>
+        <div class="input-group" id="nameGroup">
+          <label for="userName">Идентификатор (Имя)</label>
+          <input type="text" id="userName" class="input-control" placeholder="Только буквы, мин. 2 символа">
+          <span class="error-text">Имя должно содержать только буквы и быть не короче 2 символов</span>
+        </div>
+
+        <div class="input-group" id="emailGroup">
+          <label for="userEmail">Канал связи (Email)</label>
+          <input type="email" id="userEmail" class="input-control" placeholder="example@cyber.net">
+          <span class="error-text">Введите корректный адрес электронной почты</span>
+        </div>
+
+        <div class="input-group" id="msgGroup">
+          <label for="userMsg">Пакет данных (Сообщение)</label>
+          <textarea id="userMsg" class="input-control" placeholder="Мин. 10 символов..."></textarea>
+          <span class="error-text">Сообщение не может быть пустым или короче 10 символов</span>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn" style="width: 100%;">Отправить данные</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      &copy; 2026 Cyber Neon UI Kit. Developed strictly for specifications.
+    </div>
+  </footer>
+
+  <!-- структура модального окна -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 style="color: var(--neon-green); margin: 0;">Терминал доступа</h3>
+        <button class="close-modal" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Соединение установлено. Ожидание ввода команд от пользователя. Для выхода кликните вне окна или нажмите клавишу ESC.</p>
+        <br>
+        <button class="btn" id="modalActionBtn">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- логика JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // --- 1. Бургер-меню (Адаптивность и Edge case: resize) ---
+      const burgerBtn = document.getElementById('burgerBtn');
+      const navLinks = document.getElementById('navLinks');
+
+      burgerBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+
+      // Edge case: автоматическое скрытие меню при переходе на десктопное разрешение
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+          navLinks.classList.remove('active');
+        }
+      });
+
+      // --- 2. Слайдер (Edge case: быстрая прокрутка) ---
+      const slider = document.getElementById('powerSlider');
+      const sliderValue = document.getElementById('sliderValue');
+
+      slider.addEventListener('input', (e) => {
+        sliderValue.textContent = `${e.target.value}%`;
+      });
+
+      // --- 3. Прогресс-бар (Edge case: спам-клик) ---
+      const progressBtn = document.getElementById('startProgressBtn');
+      const progressBar = document.getElementById('progressBar');
+      let isProgressAnimating = false;
+
+      progressBtn.addEventListener('click', () => {
+        if (isProgressAnimating) return; 
+        
+        isProgressAnimating = true;
+        progressBtn.classList.add('disabled');
+        progressBar.style.width = '0%';
+        
+        let width = 0;
+        const interval = setInterval(() => {
+          if (width >= 100) {
+            clearInterval(interval);
+            isProgressAnimating = false;
+            progressBtn.classList.remove('disabled');
+          } else {
+            width += 2; 
+            progressBar.style.width = width + '%';
+          }
+        }, 50); 
+      });
+
+      // --- 4. Модальное окно (Edge cases: вне окна, ESC, спам-клик) ---
+      const openModalBtn = document.getElementById('openModalBtn');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const modalOverlay = document.getElementById('modalOverlay');
+      const modalActionBtn = document.getElementById('modalActionBtn');
+      let isModalAnimating = false;
+
+      const openModal = () => {
+        if (isModalAnimating) return; 
+        isModalAnimating = true;
+        modalOverlay.classList.add('active');
+        setTimeout(() => { isModalAnimating = false; }, 300); 
+      };
+
+      const closeModal = () => {
+        if (isModalAnimating) return;
+        isModalAnimating = true;
+        modalOverlay.classList.remove('active');
+        setTimeout(() => { isModalAnimating = false; }, 300);
+      };
+
+      openModalBtn.addEventListener('click', openModal);
+      closeModalBtn.addEventListener('click', closeModal);
+      modalActionBtn.addEventListener('click', closeModal);
+
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+          closeModal();
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+          closeModal();
+        }
+      });
+
+      // --- 5. Вкладки (Tabs) ---
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabPanes.forEach(p => p.classList.remove('active'));
+          
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.target).classList.add('active');
+        });
+      });
+
+      // --- 6. Аккордеон ---
+      const accHeaders = document.querySelectorAll('.accordion-header');
+      
+      accHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+          const content = header.nextElementSibling;
+          
+          // Закрытие других панелей (по желанию, убрано для независимости)
+          // accHeaders.forEach(h => {
+          //   if (h !== header) {
+          //     h.classList.remove('active');
+          //     h.nextElementSibling.style.maxHeight = null;
+          //   }
+          // });
+
+          header.classList.toggle('active');
+          
+          if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      });
+
+      // --- 7. Валидация формы ---
+      const form = document.getElementById('contactForm');
+      const nameInput = document.getElementById('userName');
+      const emailInput = document.getElementById('userEmail');
+      const msgInput = document.getElementById('userMsg');
+      const submitBtn = document.getElementById('submitBtn');
+      const successMessage = document.getElementById('formSuccessMessage');
+
+      const nameGroup = document.getElementById('nameGroup');
+      const emailGroup = document.getElementById('emailGroup');
+      const msgGroup = document.getElementById('msgGroup');
+
+      const nameRegex = /^[a-zA-Zа-яА-ЯёЁ]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      const validateField = (input, group, condition) => {
+        if (condition) {
+          group.classList.remove('error');
+          return true;
+        } else {
+          group.classList.add('error');
+          return false;
+        }
+      };
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); 
+        successMessage.style.display = 'none';
+
+        if (submitBtn.classList.contains('disabled') || submitBtn.classList.contains('loading')) {
+          return;
+        }
+
+        const isNameValid = validateField(
+          nameInput, 
+          nameGroup, 
+          nameRegex.test(nameInput.value) && nameInput.value.length >= 2
+        );
+
+        const isEmailValid = validateField(
+          emailInput, 
+          emailGroup, 
+          emailRegex.test(emailInput.value)
+        );
+
+        const trimmedMsg = msgInput.value.trim();
+        const isMsgValid = validateField(
+          msgInput, 
+          msgGroup, 
+          trimmedMsg.length >= 10
+        );
+
+        if (isNameValid && isEmailValid && isMsgValid) {
+          submitBtn.classList.add('loading');
+          submitBtn.textContent = 'Отправка...';
+
+          const formData = {
+            name: nameInput.value,
+            email: emailInput.value,
+            message: trimmedMsg
+          };
+
+          setTimeout(() => {
+            console.log('Данные формы успешно собраны:', JSON.stringify(formData));
+            
+            submitBtn.classList.remove('loading');
+            submitBtn.textContent = 'Отправить данные';
+            
+            successMessage.style.display = 'block';
+            form.reset();
+          }, 2000);
+        }
+      });
+
+      [nameInput, emailInput, msgInput].forEach(input => {
+        input.addEventListener('input', function() {
+          this.parentElement.classList.remove('error');
+        });
+      });
+
+      // --- 8. Кастомный Select ---
+      const selectWrapper = document.getElementById('customSelect');
+      const selectTrigger = selectWrapper.querySelector('.custom-select-trigger');
+      const selectOptions = selectWrapper.querySelector('.custom-options');
+      const options = selectWrapper.querySelectorAll('.custom-option');
+
+      selectTrigger.addEventListener('click', (e) => {
+        e.stopPropagation(); // предотвращаем всплытие, чтобы не сработал window.click сразу
+        selectOptions.classList.toggle('open');
+      });
+
+      options.forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.stopPropagation();
+          selectTrigger.querySelector('span:first-child').textContent = this.textContent;
+          options.forEach(opt => opt.classList.remove('selected'));
+          this.classList.add('selected');
+          selectOptions.classList.remove('open');
+        });
+      });
+
+      // Edge case: Закрытие селекта при клике вне его
+      window.addEventListener('click', (e) => {
+        if (!selectWrapper.contains(e.target)) {
+          selectOptions.classList.remove('open');
+        }
+      });
+
+      // --- 9. Toast Уведомления ---
+      const triggerToastBtn = document.getElementById('triggerToastBtn');
+      const toastContainer = document.getElementById('toastContainer');
+      let toastCount = 0;
+
+      triggerToastBtn.addEventListener('click', () => {
+        toastCount++;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<span style="color: var(--neon-green);">[SYS]</span> Событие протокола #${toastCount} успешно зарегистрировано в системе.`;
+        
+        toastContainer.appendChild(toast);
+        
+        // Небольшая задержка для срабатывания CSS-анимации появления
+        requestAnimationFrame(() => {
+          setTimeout(() => toast.classList.add('show'), 10);
+        });
+
+        // Удаление через 3.5 секунды
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300); // ждем окончания анимации скрытия (0.3s)
+        }, 3500);
+      });
+
+    });
+  </script>
+</body>
+</html>
